@@ -60,34 +60,34 @@ const unsigned char right_arrow [] = {
   0,0,1,1,1,1,0,0,
   0,1,1,1,1,1,1,0,
   1,1,1,1,1,1,1,1,
-  0,0,0,0,0,0,0,0,
-  0,0,0,0,0,0,0,0,
-  0,0,0,0,0,0,0,0,
-  0,0,0,0,0,0,0,0,
-  0,0,0,0,0,0,0,0,
-  0,0,0,0,0,0,0,0,
-  0,0,0,0,0,0,0,0,
-  0,0,0,0,0,0,0,0,
-  0,0,0,0,0,0,0,0,
-  0,0,0,0,0,0,0,0,
-  0,0,0,0,0,0,0,0,
-  0,0,0,0,0,0,0,0,
-  0,0,0,0,0,0,0,0,
-  0,0,0,0,0,0,0,0,
-  0,0,0,0,0,0,0,0,
-  0,0,0,0,0,0,0,0,
-  0,0,0,0,0,0,0,0,
-  0,0,0,0,0,0,0,0,
-  0,0,0,0,0,0,0,0,
-  0,0,0,0,0,0,0,0,
-  0,0,0,0,0,0,0,0,
-  0,0,0,0,0,0,0,0,
-  0,0,0,0,0,0,0,0,
-  0,0,0,0,0,0,0,0,
-  0,0,0,0,0,0,0,0,
-  0,0,0,0,0,0,0,0,
-  0,0,0,0,0,0,0,0,
-  0,0,0,0,0,0,0,0,
+  0,0,0,1,1,0,0,0,
+  0,0,1,1,1,1,0,0,
+  0,1,1,1,1,1,1,0,
+  1,1,1,1,1,1,1,1,
+  0,0,0,1,1,0,0,0,
+  0,0,1,1,1,1,0,0,
+  0,1,1,1,1,1,1,0,
+  1,1,1,1,1,1,1,1,
+  0,0,0,1,1,0,0,0,
+  0,0,1,1,1,1,0,0,
+  0,1,1,1,1,1,1,0,
+  1,1,1,1,1,1,1,1,
+  0,0,0,1,1,0,0,0,
+  0,0,1,1,1,1,0,0,
+  0,1,1,1,1,1,1,0,
+  1,1,1,1,1,1,1,1,
+  0,0,0,1,1,0,0,0,
+  0,0,1,1,1,1,0,0,
+  0,1,1,1,1,1,1,0,
+  1,1,1,1,1,1,1,1,
+  0,0,0,1,1,0,0,0,
+  0,0,1,1,1,1,0,0,
+  0,1,1,1,1,1,1,0,
+  1,1,1,1,1,1,1,1,
+  0,0,0,1,1,0,0,0,
+  0,0,1,1,1,1,0,0,
+  0,1,1,1,1,1,1,0,
+  1,1,1,1,1,1,1,1,
 };
 
 
@@ -120,6 +120,13 @@ void rightArrow(unsigned int c) {
   leds.show();
 }
 
+void leftArrow(unsigned int c) {
+  for (int i=0; i < ledsPerStrip; i++) {
+    leds.setPixel(i, c*right_arrow[ledsPerStrip-i-1]);
+  }
+  leds.show();
+}
+
 void loop() {
   int incomingByte;
         
@@ -129,10 +136,13 @@ void loop() {
     Serial.println(incomingByte, DEC);
                 HWSERIAL.print("USB received:");
                 HWSERIAL.println(incomingByte, DEC);
-    if(incomingByte == 'a') rightArrow(0xFF0000);  // red
-    if(incomingByte == 'b') rightArrow(0x00FF00);  // green
-    if(incomingByte == 'c') rightArrow(0x0000FF);  // blue
-    if(incomingByte == 'd') allColor(0x000000);  // off
+    if(incomingByte == '1') rightArrow(0xFF0000);  // red
+    if(incomingByte == '2') rightArrow(0x00FF00);  // green
+    if(incomingByte == '3') rightArrow(0x0000FF);  // blue
+    if(incomingByte == '4') leftArrow(0xFF0000);  // red
+    if(incomingByte == '5') leftArrow(0x00FF00);  // green
+    if(incomingByte == '6') leftArrow(0x0000FF);  // blue
+    if(incomingByte == '7') allColor(0x000000);  // off
   }
   if (HWSERIAL.available() > 0) {
     incomingByte = HWSERIAL.read();
