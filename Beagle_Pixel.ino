@@ -90,6 +90,43 @@ const unsigned char right_arrow [] = {
   1,1,1,1,1,1,1,1,
 };
 
+const unsigned char stop_word [] = {
+1,0,0,1,1,1,1,0,
+1,0,0,1,0,0,1,0,
+1,0,0,1,0,0,1,0,
+1,1,1,1,0,0,1,0,
+0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,1,
+0,0,0,0,0,0,0,1,
+1,1,1,1,1,1,1,1,
+0,0,0,0,0,0,0,1,
+0,0,0,0,0,0,0,1,
+0,0,0,0,0,0,0,1,
+0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,
+};
+
+
+
 
 
 void setup() {
@@ -127,6 +164,13 @@ void leftArrow(unsigned int c) {
   leds.show();
 }
 
+void show_stop(unsigned int c) {
+  for (int i=0; i < ledsPerStrip; i++) {
+    leds.setPixel(i, c*stop_word[i-1]);
+  }
+  leds.show();
+}
+
 void loop() {
   int incomingByte;
         
@@ -142,7 +186,8 @@ void loop() {
     if(incomingByte == '4') leftArrow(0xFF0000);  // red
     if(incomingByte == '5') leftArrow(0x00FF00);  // green
     if(incomingByte == '6') leftArrow(0x0000FF);  // blue
-    if(incomingByte == '7') allColor(0x000000);  // off
+    if(incomingByte == '7') show_stop(0xFF0000);  // red stop
+    if(incomingByte == '8') allColor(0x000000);  // off
   }
   if (HWSERIAL.available() > 0) {
     incomingByte = HWSERIAL.read();
